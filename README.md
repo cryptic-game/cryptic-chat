@@ -1,14 +1,6 @@
-# microservice-java-template
-A template for new java microservices
+# cryptic-chat
+The chat microservice of cryptic-game
 
-## files to change
+## API 
 
-- pom.xml
-- Dockerfile (if needed)
-- logically the java code
-
-Replace `template` with the microservice name.
-
-## tests
-
-Please write tests for our continuous integration...
+[API Documentation](https://github.com/cryptic-game/cryptic-chat/wiki)

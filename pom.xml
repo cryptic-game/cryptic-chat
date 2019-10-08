@@ -4,12 +4,12 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>net.cryptic_game.microservice</groupId>
-	<artifactId>template</artifactId>
-	<version>0.0.2-SNAPSHOT</version>
+	<artifactId>chat</artifactId>
+	<version>0.0.3-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>cryptic-game-TEMPLATE</name>
-	<description>offical TEMPLATE microservice of cryptic-game</description>
+	<name>cryptic-game-chat</name>
+	<description>offical chat microservice of cryptic-game</description>
 	<url>https://cryptic-game.net</url>
 
 	<build>
@@ -20,7 +20,7 @@
 				<configuration>
 					<archive>
 						<manifest>
-							<mainClass>net.cryptic_game.microservice.template.App</mainClass>
+							<mainClass>net.cryptic_game.microservice.chat.App</mainClass>
 						</manifest>
 					</archive>
 					<descriptorRefs>
