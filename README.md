@@ -3,7 +3,7 @@ The chat microservice of cryptic-game
 
 ## Docker-Hub
 
-This microservice is online on docker-hub (https://hub.docker.com/r/rubidiumdev/cryptic-chat).
+This microservice is online on docker-hub (https://hub.docker.com/r/crypticcp/cryptic-chat).
 
 ## API 
 
