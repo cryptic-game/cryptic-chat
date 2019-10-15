@@ -12,6 +12,8 @@ public class App extends MicroService {
         super("chat");
 
         this.channelHandler = new ChannelHandler();
+
+        this.channelHandler.addChanel("global");
     }
 
     public static void main(String[] args) {
