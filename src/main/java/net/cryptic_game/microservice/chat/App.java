@@ -1,19 +1,25 @@
 package net.cryptic_game.microservice.chat;
 
-import org.apache.log4j.BasicConfigurator;
-
 import net.cryptic_game.microservice.MicroService;
+import net.cryptic_game.microservice.chat.channel.ChannelHandler;
+import org.apache.log4j.BasicConfigurator;
 
 public class App extends MicroService {
 
-	public App() {
-		super("chat");
-	}
+    private final ChannelHandler channelHandler;
 
-	public static void main(String[] args) {
-		BasicConfigurator.configure();
+    public App() {
+        super("chat");
 
-		new App();
-	}
+        this.channelHandler = new ChannelHandler();
+    }
 
+    public static void main(String[] args) {
+        BasicConfigurator.configure();
+        new App();
+    }
+
+    public ChannelHandler getChannelHandler() {
+        return this.channelHandler;
+    }
 }
