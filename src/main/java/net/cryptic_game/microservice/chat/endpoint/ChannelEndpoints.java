@@ -4,13 +4,14 @@ import net.cryptic_game.microservice.MicroService;
 import net.cryptic_game.microservice.chat.App;
 import net.cryptic_game.microservice.chat.channel.Channel;
 import net.cryptic_game.microservice.chat.channel.ChannelHandler;
+import net.cryptic_game.microservice.chat.channel.ChatAction;
 import net.cryptic_game.microservice.endpoint.UserEndpoint;
 import net.cryptic_game.microservice.utils.JSON;
-import net.cryptic_game.microservice.utils.JSONBuilder;
 import net.cryptic_game.microservice.wrapper.User;
 import org.json.simple.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import static net.cryptic_game.microservice.utils.JSONBuilder.anJSON;
@@ -22,13 +23,13 @@ public class ChannelEndpoints {
     public static JSONObject getChannel(final JSON data, final UUID uuid) {
         final ChannelHandler channelHandler = ((App) App.getInstance()).getChannelHandler();
 
-        final ArrayList<JSONBuilder> channelsJson = new ArrayList<>();
+        final List<JSONObject> channelsJson = new ArrayList<>();
 
         for (final Channel channel : channelHandler.getChannels()) {
-            final JSONBuilder jsonBuilder = anJSON();
-            jsonBuilder.add("uuid", channel.getUuid());
-            jsonBuilder.add("name", channel.getName());
-            channelsJson.add(jsonBuilder);
+            channelsJson.add(anJSON()
+                    .add("uuid", channel.getUuid())
+                    .add("name", channel.getName())
+                    .build());
         }
 
         return simple("channel", channelsJson);
@@ -44,16 +45,10 @@ public class ChannelEndpoints {
             return simple("error", "Channel with the UUID \"" + data.getUUID("channel").toString() + "\" can't be found.");
         }
 
-        final ArrayList<JSONObject> userJson = new ArrayList<>();
+        final List<JSONObject> userJson = new ArrayList<>();
 
         for (final User user : channel.getUser()) {
-            final JSONBuilder jsonBuilder = anJSON();
-            jsonBuilder.add("uuid", user.getUUID());
-            jsonBuilder.add("name", user.getName());
-            jsonBuilder.add("mail", user.getMail());
-            jsonBuilder.add("created", user.getCreated());
-            jsonBuilder.add("last", user.getLast());
-            userJson.add(jsonBuilder.build());
+            userJson.add(simple("name", user.getName()));
         }
 
         return simple("user", userJson);
@@ -67,15 +62,16 @@ public class ChannelEndpoints {
         final Channel channel = channelHandler.getChannelByUUID(data.getUUID("channel"));
 
         if (user == null) {
-            return simple("error", "User with the UUID \"" + uuid.toString() + "\" can't be found.");
+            return simple("error", "user_not_found");
         }
         if (channel == null) {
-            return simple("error", "Channel with the UUID \"" + data.getUUID("channel").toString() + "\" can't be found.");
+            return simple("error", "channel_not_found");
         }
 
         channelHandler.getChannelByUUID(data.getUUID("channel")).addUser(user);
+        channelHandler.notifyUsers(ChatAction.MEMBER_JOIN, channel, user.getUUID());
 
-        return simple("info", "Added User \"" + user.getUUID().toString() + "\" to channel \"" + channel.getUuid().toString() + "\".");
+        return simple("success", true);
     }
 
     @UserEndpoint(path = {"channel", "leave"}, keys = {"channel"}, types = {UUID.class})
@@ -86,14 +82,15 @@ public class ChannelEndpoints {
         final Channel channel = channelHandler.getChannelByUUID(data.getUUID("channel"));
 
         if (user == null) {
-            return simple("error", "User with the UUID \"" + uuid.toString() + "\" can't be found.");
+            return simple("error", "user_not_found");
         }
         if (channel == null) {
-            return simple("error", "Channel with the UUID \"" + data.getUUID("channel").toString() + "\" can't be found.");
+            return simple("error", "channel_not_found");
         }
 
         channelHandler.getChannelByUUID(data.getUUID("channel")).removeUser(user);
+        channelHandler.notifyUsers(ChatAction.MEMBER_LEAVE, channel, user.getUUID());
 
-        return simple("info", "Removed User \"" + user.getUUID().toString() + "\" from channel \"" + channel.getUuid().toString() + "\".");
+        return simple("success", true);
     }
 }

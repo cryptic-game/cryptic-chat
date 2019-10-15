@@ -1,7 +1,12 @@
 package net.cryptic_game.microservice.chat.channel;
 
+import net.cryptic_game.microservice.MicroService;
+import org.json.simple.JSONObject;
+
 import java.util.ArrayList;
 import java.util.UUID;
+
+import static net.cryptic_game.microservice.utils.JSONBuilder.anJSON;
 
 public class ChannelHandler {
 
@@ -24,5 +29,18 @@ public class ChannelHandler {
 
     public ArrayList<Channel> getChannels() {
         return this.channels;
+    }
+
+    public void notifyUsers(final ChatAction action, final Channel channel, final UUID target) {
+        final JSONObject json = anJSON()
+                .add("notify-id", "chat-update")
+                .add("origin", "chat")
+                .add("data", anJSON()
+                        .add("action", action.getValue())
+                        .add("channel", channel)
+                        .add("user", channel).build()
+                ).build();
+
+        channel.getUser().forEach(user -> MicroService.getInstance().sendToUser(target, json));
     }
 }
