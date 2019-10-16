@@ -9,12 +9,12 @@ public class Channel {
 
     private final UUID uuid;
     private String name;
-    private final ArrayList<User> user;
+    private final ArrayList<User> users;
 
-    public Channel(final String name) {
+    Channel(final String name) {
         this.uuid = UUID.randomUUID();
         this.name = name;
-        this.user = new ArrayList<>();
+        this.users = new ArrayList<>();
     }
 
     public UUID getUuid() {
@@ -29,15 +29,27 @@ public class Channel {
         this.name = name;
     }
 
-    public ArrayList<User> getUser() {
-        return this.user;
+    public ArrayList<User> getUsers() {
+        return this.users;
     }
 
-    public void addUser(final User user) {
-        this.user.add(user);
+    public boolean addUser(final User user) {
+        for(User u : users) {
+            if(u.getUUID().equals(user.getUUID())) {
+                return false;
+            }
+        }
+        this.users.add(user);
+        return true;
     }
 
-    public void removeUser(final User user) {
-        this.user.remove(user);
+    public boolean removeUser(final User user) {
+        for(User u : users) {
+            if(u.getUUID().equals(user.getUUID())) {
+                this.users.remove(user);
+                return true;
+            }
+        }
+        return false;
     }
 }

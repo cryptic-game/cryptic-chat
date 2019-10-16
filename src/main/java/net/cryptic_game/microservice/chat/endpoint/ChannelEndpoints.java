@@ -21,7 +21,7 @@ public class ChannelEndpoints {
 
     @UserEndpoint(path = {"channel", "list"}, keys = {}, types = {})
     public static JSONObject getChannel(final JSON data, final UUID uuid) {
-        final ChannelHandler channelHandler = ((App) App.getInstance()).getChannelHandler();
+        final ChannelHandler channelHandler = App.getChannelHandler();
 
         final List<JSONObject> channelsJson = new ArrayList<>();
 
@@ -32,31 +32,31 @@ public class ChannelEndpoints {
                     .build());
         }
 
-        return simple("channel", channelsJson);
+        return simple("channels", channelsJson);
     }
 
     @UserEndpoint(path = {"channel", "members"}, keys = {"channel"}, types = {UUID.class})
     public static JSONObject getChannelMembers(final JSON data, final UUID uuid) {
-        final ChannelHandler channelHandler = ((App) App.getInstance()).getChannelHandler();
+        final ChannelHandler channelHandler = App.getChannelHandler();
 
         final Channel channel = channelHandler.getChannelByUUID(data.getUUID("channel"));
 
         if (channel == null) {
-            return simple("error", "Channel with the UUID \"" + data.getUUID("channel").toString() + "\" can't be found.");
+            return simple("error", "channel_not_found");
         }
 
         final List<JSONObject> userJson = new ArrayList<>();
 
-        for (final User user : channel.getUser()) {
+        for (final User user : channel.getUsers()) {
             userJson.add(simple("name", user.getName()));
         }
 
-        return simple("user", userJson);
+        return simple("users", userJson);
     }
 
     @UserEndpoint(path = {"channel", "join"}, keys = {"channel"}, types = {UUID.class})
     public static JSONObject joinChannel(final JSON data, final UUID uuid) {
-        final ChannelHandler channelHandler = ((App) App.getInstance()).getChannelHandler();
+        final ChannelHandler channelHandler = App.getChannelHandler();
 
         final User user = MicroService.getInstance().getUser(uuid);
         final Channel channel = channelHandler.getChannelByUUID(data.getUUID("channel"));
@@ -68,15 +68,17 @@ public class ChannelEndpoints {
             return simple("error", "channel_not_found");
         }
 
-        channelHandler.getChannelByUUID(data.getUUID("channel")).addUser(user);
-        channelHandler.notifyUsers(ChatAction.MEMBER_JOIN, channel, user.getUUID());
+        if(channel.addUser(user)) {
+            channelHandler.notifyUsers(ChatAction.MEMBER_JOIN, channel, user.getUUID());
+            return simple("success", true);
+        }
 
-        return simple("success", true);
+        return simple("success", false);
     }
 
     @UserEndpoint(path = {"channel", "leave"}, keys = {"channel"}, types = {UUID.class})
     public static JSONObject leaveChannel(final JSON data, final UUID uuid) {
-        final ChannelHandler channelHandler = ((App) App.getInstance()).getChannelHandler();
+        final ChannelHandler channelHandler = App.getChannelHandler();
 
         final User user = MicroService.getInstance().getUser(uuid);
         final Channel channel = channelHandler.getChannelByUUID(data.getUUID("channel"));
@@ -88,9 +90,11 @@ public class ChannelEndpoints {
             return simple("error", "channel_not_found");
         }
 
-        channelHandler.getChannelByUUID(data.getUUID("channel")).removeUser(user);
-        channelHandler.notifyUsers(ChatAction.MEMBER_LEAVE, channel, user.getUUID());
+        if(channel.removeUser(user)) {
+            channelHandler.notifyUsers(ChatAction.MEMBER_LEAVE, channel, user.getUUID());
+            return simple("success", true);
+        }
 
-        return simple("success", true);
+        return simple("success", false);
     }
 }

@@ -38,9 +38,9 @@ public class ChannelHandler {
                 .add("data", anJSON()
                         .add("action", action.getValue())
                         .add("channel", channel.getUuid().toString())
-                        .add("user", channel.toString()).build()
+                        .add("user", target.toString()).build()
                 ).build();
 
-        channel.getUser().forEach(user -> MicroService.getInstance().sendToUser(target, json));
+        channel.getUsers().forEach(user -> MicroService.getInstance().sendToUser(user.getUUID(), json));
     }
 }

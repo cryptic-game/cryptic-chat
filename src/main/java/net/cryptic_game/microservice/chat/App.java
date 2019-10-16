@@ -6,22 +6,22 @@ import org.apache.log4j.BasicConfigurator;
 
 public class App extends MicroService {
 
-    private final ChannelHandler channelHandler;
+    private static ChannelHandler channelHandler;
 
-    public App() {
+    private App() {
         super("chat");
-
-        this.channelHandler = new ChannelHandler();
-
-        this.channelHandler.addChanel("global");
     }
 
     public static void main(String[] args) {
         BasicConfigurator.configure();
+
+        channelHandler = new ChannelHandler();
+        channelHandler.addChanel("global");
+
         new App();
     }
 
-    public ChannelHandler getChannelHandler() {
-        return this.channelHandler;
+    public static ChannelHandler getChannelHandler() {
+        return channelHandler;
     }
 }
