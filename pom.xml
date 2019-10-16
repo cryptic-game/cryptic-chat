@@ -66,12 +66,5 @@
             <artifactId>java-lib</artifactId>
             <version>experimental-SNAPSHOT</version>
         </dependency>
-
-        <!-- TODO: Dependency is temporally to prevent crash, it will be added to com.github.cryptic-game:java-lib in the future. -->
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-log4j12</artifactId>
-            <version>1.7.26</version>
-        </dependency>
     </dependencies>
 </project>
