@@ -8,8 +8,8 @@ import java.util.UUID;
 public class Channel {
 
     private final UUID uuid;
-    private String name;
     private final ArrayList<User> users;
+    private String name;
 
     Channel(final String name) {
         this.uuid = UUID.randomUUID();
@@ -34,8 +34,8 @@ public class Channel {
     }
 
     public boolean addUser(final User user) {
-        for(User u : users) {
-            if(u.getUUID().equals(user.getUUID())) {
+        for (User u : users) {
+            if (u.getUUID().equals(user.getUUID())) {
                 return false;
             }
         }
@@ -44,8 +44,8 @@ public class Channel {
     }
 
     public boolean removeUser(final User user) {
-        for(User u : users) {
-            if(u.getUUID().equals(user.getUUID())) {
+        for (User u : users) {
+            if (u.getUUID().equals(user.getUUID())) {
                 this.users.remove(user);
                 return true;
             }

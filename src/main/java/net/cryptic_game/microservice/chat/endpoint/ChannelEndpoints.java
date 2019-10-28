@@ -68,8 +68,8 @@ public class ChannelEndpoints {
             return simple("error", "channel_not_found");
         }
 
-        if(channel.addUser(user)) {
-            channelHandler.notifyUsers(ChatAction.MEMBER_JOIN, channel, user.getUUID());
+        if (channel.addUser(user)) {
+            channelHandler.notifyAllChannelUsers(ChatAction.MEMBER_JOIN, channel, user.getUUID());
             return simple("success", true);
         }
 
@@ -90,8 +90,8 @@ public class ChannelEndpoints {
             return simple("error", "channel_not_found");
         }
 
-        if(channel.removeUser(user)) {
-            channelHandler.notifyUsers(ChatAction.MEMBER_LEAVE, channel, user.getUUID());
+        if (channel.removeUser(user)) {
+            channelHandler.notifyAllChannelUsers(ChatAction.MEMBER_LEAVE, channel, user.getUUID());
             return simple("success", true);
         }
 
