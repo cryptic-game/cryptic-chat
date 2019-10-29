@@ -58,7 +58,7 @@ public class MessageEndpoints {
                 .add("send-date", new Date())
                 .build();
 
-        App.getChannelHandler().notifyUser(target, ChatAction.SEND_MESSAGE, channel, userUuid, content);
+        App.getChannelHandler().notifyUser(target, ChatAction.WHISPER_MESSAGE, channel, userUuid, content);
 
         return simple("success", true);
     }
