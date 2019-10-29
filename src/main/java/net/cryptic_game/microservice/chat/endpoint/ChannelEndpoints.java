@@ -48,6 +48,7 @@ public class ChannelEndpoints {
         final List<JSONObject> userJson = new ArrayList<>();
 
         for (final User user : channel.getUsers()) {
+            userJson.add(simple("uuid", user.getUUID()));
             userJson.add(simple("name", user.getName()));
         }
 
