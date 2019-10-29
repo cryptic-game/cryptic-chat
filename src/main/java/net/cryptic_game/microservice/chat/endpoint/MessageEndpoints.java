@@ -30,7 +30,6 @@ public class MessageEndpoints {
         final JSONObject content = anJSON()
                 .add("message", messageContent)
                 .add("send-date", new Date())
-                .add("whisper", false)
                 .build();
 
         App.getChannelHandler().notifyAllChannelUsers(ChatAction.SEND_MESSAGE, channel, userUuid, content);
@@ -57,7 +56,6 @@ public class MessageEndpoints {
         final JSONObject content = anJSON()
                 .add("message", messageContent)
                 .add("send-date", new Date())
-                .add("whisper", true)
                 .build();
 
         App.getChannelHandler().notifyUser(target, ChatAction.SEND_MESSAGE, channel, userUuid, content);
