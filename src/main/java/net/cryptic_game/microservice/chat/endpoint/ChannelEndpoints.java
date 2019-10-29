@@ -27,7 +27,7 @@ public class ChannelEndpoints {
 
         for (final Channel channel : channelHandler.getChannels()) {
             channelsJson.add(anJSON()
-                    .add("uuid", channel.getUuid())
+                    .add("uuid", channel.getUuid().toString())
                     .add("name", channel.getName())
                     .build());
         }
@@ -48,7 +48,7 @@ public class ChannelEndpoints {
         final List<JSONObject> userJson = new ArrayList<>();
 
         for (final User user : channel.getUsers()) {
-            userJson.add(simple("uuid", user.getUUID()));
+            userJson.add(simple("uuid", user.getUUID().toString()));
             userJson.add(simple("name", user.getName()));
         }
 
