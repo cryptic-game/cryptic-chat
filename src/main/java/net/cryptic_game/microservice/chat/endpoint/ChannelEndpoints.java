@@ -35,7 +35,7 @@ public class ChannelEndpoints {
         return simple("channels", channelsJson);
     }
 
-    @UserEndpoint(path = {"channel", "members"}, keys = {"channel"}, types = {UUID.class})
+    @UserEndpoint(path = {"channel", "members"}, keys = {"channel"}, types = {String.class})
     public static JSONObject getChannelMembers(final JSON data, final UUID uuid) {
         final ChannelHandler channelHandler = App.getChannelHandler();
 
@@ -55,7 +55,7 @@ public class ChannelEndpoints {
         return simple("users", userJson);
     }
 
-    @UserEndpoint(path = {"channel", "join"}, keys = {"channel"}, types = {UUID.class})
+    @UserEndpoint(path = {"channel", "join"}, keys = {"channel"}, types = {String.class})
     public static JSONObject joinChannel(final JSON data, final UUID uuid) {
         final ChannelHandler channelHandler = App.getChannelHandler();
 
@@ -77,7 +77,7 @@ public class ChannelEndpoints {
         return simple("success", false);
     }
 
-    @UserEndpoint(path = {"channel", "leave"}, keys = {"channel"}, types = {UUID.class})
+    @UserEndpoint(path = {"channel", "leave"}, keys = {"channel"}, types = {String.class})
     public static JSONObject leaveChannel(final JSON data, final UUID uuid) {
         final ChannelHandler channelHandler = App.getChannelHandler();
 

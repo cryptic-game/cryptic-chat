@@ -17,7 +17,7 @@ import static net.cryptic_game.microservice.utils.JSONBuilder.simple;
 
 public class MessageEndpoints {
 
-    @UserEndpoint(path = {"message", "send"}, keys = {"channel", "message"}, types = {UUID.class, String.class})
+    @UserEndpoint(path = {"message", "send"}, keys = {"channel", "message"}, types = {String.class, String.class})
     public static JSONObject sendMessage(final JSON data, final UUID userUuid) {
         final UUID channelUuid = data.getUUID("channel");
         final String messageContent = data.get("content");
@@ -37,7 +37,7 @@ public class MessageEndpoints {
         return simple("success", true);
     }
 
-    @UserEndpoint(path = {"message", "whisper"}, keys = {"channel", "message", "target"}, types = {UUID.class, String.class, UUID.class})
+    @UserEndpoint(path = {"message", "whisper"}, keys = {"channel", "message", "target"}, types = {String.class, String.class, String.class})
     public static JSONObject whisperMessage(final JSON data, final UUID userUuid) {
         final UUID channelUuid = data.getUUID("channel");
         final String messageContent = data.get("content");
