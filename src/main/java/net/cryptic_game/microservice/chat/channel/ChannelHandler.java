@@ -25,6 +25,12 @@ public class ChannelHandler {
         return channel;
     }
 
+    public void removeChannel(final UUID channelUuid, final UUID userUuid) {
+        final Channel channel = this.getChannelByUUID(channelUuid);
+        this.notifyAllChannelUsers(ChatAction.CHANNEL_DELETE, channel, userUuid);
+        this.channels.remove(channel);
+    }
+
     public Channel getChannelByUUID(final UUID uuid) {
         for (final Channel channel : this.channels) if (channel.getUuid().equals(uuid)) return channel;
         return null;

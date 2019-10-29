@@ -5,7 +5,9 @@ public enum ChatAction {
     MEMBER_LEAVE("member-leave"),
 
     SEND_MESSAGE("send-message"),
-    WHISPER_MESSAGE("whisper-message");
+    WHISPER_MESSAGE("whisper-message"),
+
+    CHANNEL_DELETE("channel-delete");
 
     final String value;
 
