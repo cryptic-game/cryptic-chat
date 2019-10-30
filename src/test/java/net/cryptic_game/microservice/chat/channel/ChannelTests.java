@@ -35,8 +35,15 @@ public class ChannelTests {
         final Channel channel = new Channel("test");
         final User testUser = new User(UUID.randomUUID(), "test", "test@test.test", new Date(), new Date());
 
-        assertTrue(channel.addUser(testUser));
         assertTrue(channel.getUsers().contains(testUser));
+    }
+
+    @Test
+    public void testAddUserReturn() {
+        final Channel channel = new Channel("test");
+        final User testUser = new User(UUID.randomUUID(), "test", "test@test.test", new Date(), new Date());
+
+        assertTrue(channel.addUser(testUser));
     }
 
     @Test
@@ -57,8 +64,20 @@ public class ChannelTests {
             fail();
         }
 
-        assertTrue(channel.removeUser(testUser));
         assertFalse(channel.getUsers().contains(testUser));
+    }
+
+    @Test
+    public void testRemoveUserReturn() {
+        final Channel channel = new Channel("test");
+        final User testUser = new User(UUID.randomUUID(), "test", "test@test.test", new Date(), new Date());
+        channel.addUser(testUser);
+
+        if (!channel.getUsers().contains(testUser)) {
+            fail();
+        }
+
+        assertTrue(channel.removeUser(testUser));
     }
 
     @Test
