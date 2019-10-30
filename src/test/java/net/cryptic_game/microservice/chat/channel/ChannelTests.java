@@ -87,4 +87,21 @@ public class ChannelTests {
 
         assertFalse(channel.removeUser(testUser));
     }
+
+    @Test
+    public void testGetUserByName() {
+        final Channel channel = new Channel("test");
+        final User testUser = new User(UUID.randomUUID(), "test", "test@test.test", new Date(), new Date());
+        channel.addUser(testUser);
+
+        assertEquals(testUser, channel.getUserByName(testUser.getName()));
+    }
+
+    @Test
+    public void testGetUserByNameWithoutExist() {
+        final Channel channel = new Channel("test");
+        final User testUser = new User(UUID.randomUUID(), "test", "test@test.test", new Date(), new Date());
+
+        assertNull(channel.getUserByName(testUser.getName()));
+    }
 }

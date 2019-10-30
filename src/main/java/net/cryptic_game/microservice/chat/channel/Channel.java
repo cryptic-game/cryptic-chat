@@ -53,4 +53,11 @@ public class Channel {
         }
         return false;
     }
+
+    public User getUserByName(final String name) {
+        for (final User user : this.users) {
+            if (user.getName().equals(name)) return user;
+        }
+        return null;
+    }
 }
