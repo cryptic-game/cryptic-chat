@@ -14,10 +14,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import static net.cryptic_game.microservice.chat.endpoint.EndpointResponse.*;
 import static net.cryptic_game.microservice.utils.JSONBuilder.anJSON;
 import static net.cryptic_game.microservice.utils.JSONBuilder.simple;
 
 public class ChannelEndpoints {
+
+    private ChannelEndpoints() {
+    }
 
     @UserEndpoint(path = {"channel", "list"}, keys = {}, types = {})
     public static JSONObject getChannel(final JSON data, final UUID uuid) {
@@ -42,12 +46,13 @@ public class ChannelEndpoints {
         final Channel channel = channelHandler.getChannelByUUID(data.getUUID("channel"));
 
         if (channel == null) {
-            return simple("error", "channel_not_found");
+            return CHANNEL_NOT_FOUND.getJson();
         }
 
         final List<JSONObject> userJson = new ArrayList<>();
 
         for (final User user : channel.getUsers()) {
+//            TODO: WITHOUT UUID (NAME IS UNIQUE)
             userJson.add(simple("uuid", user.getUUID().toString()));
             userJson.add(simple("name", user.getName()));
         }
@@ -63,18 +68,18 @@ public class ChannelEndpoints {
         final Channel channel = channelHandler.getChannelByUUID(data.getUUID("channel"));
 
         if (user == null) {
-            return simple("error", "user_not_found");
+            return USER_NOT_FOUND.getJson();
         }
         if (channel == null) {
-            return simple("error", "channel_not_found");
+            return CHANNEL_NOT_FOUND.getJson();
         }
 
         if (channel.addUser(user)) {
             channelHandler.notifyAllChannelUsers(ChatAction.MEMBER_JOIN, channel, user.getUUID());
-            return simple("success", true);
+            return SUCCESS.getJson();
         }
 
-        return simple("success", false);
+        return FAIL.getJson();
     }
 
     @UserEndpoint(path = {"channel", "leave"}, keys = {"channel"}, types = {String.class})
@@ -85,17 +90,17 @@ public class ChannelEndpoints {
         final Channel channel = channelHandler.getChannelByUUID(data.getUUID("channel"));
 
         if (user == null) {
-            return simple("error", "user_not_found");
+            return USER_NOT_FOUND.getJson();
         }
         if (channel == null) {
-            return simple("error", "channel_not_found");
+            return CHANNEL_NOT_FOUND.getJson();
         }
 
         if (channel.removeUser(user)) {
             channelHandler.notifyAllChannelUsers(ChatAction.MEMBER_LEAVE, channel, user.getUUID());
-            return simple("success", true);
+            return SUCCESS.getJson();
         }
 
-        return simple("success", false);
+        return FAIL.getJson();
     }
 }

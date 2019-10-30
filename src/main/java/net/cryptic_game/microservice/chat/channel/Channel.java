@@ -3,12 +3,13 @@ package net.cryptic_game.microservice.chat.channel;
 import net.cryptic_game.microservice.wrapper.User;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public class Channel {
 
     private final UUID uuid;
-    private final ArrayList<User> users;
+    private final List<User> users;
     private String name;
 
     Channel(final String name) {
@@ -29,12 +30,12 @@ public class Channel {
         this.name = name;
     }
 
-    public ArrayList<User> getUsers() {
+    public List<User> getUsers() {
         return this.users;
     }
 
     public boolean addUser(final User user) {
-        for (User u : users) {
+        for (final User u : this.users) {
             if (u.getUUID().equals(user.getUUID())) {
                 return false;
             }
@@ -44,7 +45,7 @@ public class Channel {
     }
 
     public boolean removeUser(final User user) {
-        for (User u : users) {
+        for (final User u : this.users) {
             if (u.getUUID().equals(user.getUUID())) {
                 this.users.remove(user);
                 return true;

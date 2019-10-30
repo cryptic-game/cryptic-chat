@@ -7,13 +7,14 @@ import org.json.simple.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.UUID;
 
 import static net.cryptic_game.microservice.utils.JSONBuilder.anJSON;
 
 public class ChannelHandler {
 
-    private final ArrayList<Channel> channels;
+    private final List<Channel> channels;
 
     public ChannelHandler() {
         this.channels = new ArrayList<>();
@@ -40,7 +41,7 @@ public class ChannelHandler {
         return null;
     }
 
-    public ArrayList<Channel> getChannels() {
+    public List<Channel> getChannels() {
         return this.channels;
     }
 
@@ -52,7 +53,7 @@ public class ChannelHandler {
         this.notifyUsers(new ArrayList<>(Collections.singletonList(user)), action, channel, target, content);
     }
 
-    public void notifyUsers(final ArrayList<User> users, final ChatAction action, final Channel channel, final UUID target) {
+    public void notifyUsers(final List<User> users, final ChatAction action, final Channel channel, final UUID target) {
         this.notifyUsers(users, action, channel, target, null);
     }
 
@@ -64,7 +65,7 @@ public class ChannelHandler {
         this.notifyUsers(channel.getUsers(), action, channel, target, content);
     }
 
-    public void notifyUsers(final ArrayList<User> users, ChatAction action, final Channel channel, final UUID target, final JSONObject content) {
+    public void notifyUsers(final List<User> users, ChatAction action, final Channel channel, final UUID target, final JSONObject content) {
         final JSONBuilder data = anJSON()
                 .add("action", action.getValue())
                 .add("channel", channel.getUuid().toString())

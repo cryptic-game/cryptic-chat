@@ -12,10 +12,15 @@ import org.json.simple.JSONObject;
 import java.util.Date;
 import java.util.UUID;
 
+import static net.cryptic_game.microservice.chat.endpoint.EndpointResponse.CHANNEL_NOT_FOUND;
+import static net.cryptic_game.microservice.chat.endpoint.EndpointResponse.USER_NOT_FOUND;
 import static net.cryptic_game.microservice.utils.JSONBuilder.anJSON;
 import static net.cryptic_game.microservice.utils.JSONBuilder.simple;
 
 public class MessageEndpoints {
+
+    private MessageEndpoints() {
+    }
 
     @UserEndpoint(path = {"message", "send"}, keys = {"channel", "message"}, types = {String.class, String.class})
     public static JSONObject sendMessage(final JSON data, final UUID userUuid) {
@@ -24,7 +29,7 @@ public class MessageEndpoints {
 
         final Channel channel = App.getChannelHandler().getChannelByUUID(channelUuid);
         if (channel == null) {
-            return simple("error", "channel_not_found");
+            return CHANNEL_NOT_FOUND.getJson();
         }
 
         final JSONObject content = anJSON()
@@ -45,12 +50,12 @@ public class MessageEndpoints {
 
         final Channel channel = App.getChannelHandler().getChannelByUUID(channelUuid);
         if (channel == null) {
-            return simple("error", "channel_not_found");
+            return CHANNEL_NOT_FOUND.getJson();
         }
 
         final User target = MicroService.getInstance().getUser(targetUuid);
         if (target == null) {
-            return simple("error", "user_not_found");
+            return USER_NOT_FOUND.getJson();
         }
 
         final JSONObject content = anJSON()
