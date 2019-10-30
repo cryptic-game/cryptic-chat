@@ -8,6 +8,7 @@ public enum EndpointResponse {
 
     USER_NOT_FOUND(simple("error", "user_not_found")),
     CHANNEL_NOT_FOUND(simple("error", "channel_not_found")),
+    USER_NOT_IN_CHANNEL(simple("error", "user_not_in_channel")),
     FAIL(simple("success", false)),
     SUCCESS(simple("success", true));
 

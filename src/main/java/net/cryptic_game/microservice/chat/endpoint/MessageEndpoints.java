@@ -1,6 +1,5 @@
 package net.cryptic_game.microservice.chat.endpoint;
 
-import net.cryptic_game.microservice.MicroService;
 import net.cryptic_game.microservice.chat.App;
 import net.cryptic_game.microservice.chat.channel.Channel;
 import net.cryptic_game.microservice.chat.channel.ChatAction;
@@ -13,7 +12,7 @@ import java.util.Date;
 import java.util.UUID;
 
 import static net.cryptic_game.microservice.chat.endpoint.EndpointResponse.CHANNEL_NOT_FOUND;
-import static net.cryptic_game.microservice.chat.endpoint.EndpointResponse.USER_NOT_FOUND;
+import static net.cryptic_game.microservice.chat.endpoint.EndpointResponse.USER_NOT_IN_CHANNEL;
 import static net.cryptic_game.microservice.utils.JSONBuilder.anJSON;
 import static net.cryptic_game.microservice.utils.JSONBuilder.simple;
 
@@ -46,16 +45,16 @@ public class MessageEndpoints {
     public static JSONObject whisperMessage(final JSON data, final UUID userUuid) {
         final UUID channelUuid = data.getUUID("channel");
         final String messageContent = data.get("content");
-        final UUID targetUuid = data.getUUID("target");
+        final String targetName = data.get("target");
 
         final Channel channel = App.getChannelHandler().getChannelByUUID(channelUuid);
         if (channel == null) {
             return CHANNEL_NOT_FOUND.getJson();
         }
 
-        final User target = MicroService.getInstance().getUser(targetUuid);
+        final User target = channel.getUserByName(targetName);
         if (target == null) {
-            return USER_NOT_FOUND.getJson();
+            return USER_NOT_IN_CHANNEL.getJson();
         }
 
         final JSONObject content = anJSON()

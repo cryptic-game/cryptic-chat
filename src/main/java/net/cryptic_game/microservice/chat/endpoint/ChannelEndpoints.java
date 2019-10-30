@@ -52,8 +52,6 @@ public class ChannelEndpoints {
         final List<JSONObject> userJson = new ArrayList<>();
 
         for (final User user : channel.getUsers()) {
-//            TODO: WITHOUT UUID (NAME IS UNIQUE)
-            userJson.add(simple("uuid", user.getUUID().toString()));
             userJson.add(simple("name", user.getName()));
         }
 
