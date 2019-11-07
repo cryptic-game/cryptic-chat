@@ -1,14 +1,35 @@
 package net.cryptic_game.microservice.chat.channel;
 
+import net.cryptic_game.microservice.chat.App;
 import net.cryptic_game.microservice.wrapper.User;
+import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 
 import java.util.Date;
 import java.util.UUID;
 
 import static org.junit.Assert.*;
+import static org.powermock.api.mockito.PowerMockito.mockStatic;
+import static org.powermock.api.mockito.PowerMockito.when;
 
+@RunWith(PowerMockRunner.class)
+@PrepareForTest(App.class)
 public class ChannelTests {
+
+    @Mock
+    ChannelHandler channelHandler;
+
+    @Before
+    public void setUp() {
+        MockitoAnnotations.initMocks(this);
+        mockStatic(App.class);
+        when(App.getChannelHandler()).thenReturn(channelHandler);
+    }
 
     @Test
     public void testGetUuid() {
