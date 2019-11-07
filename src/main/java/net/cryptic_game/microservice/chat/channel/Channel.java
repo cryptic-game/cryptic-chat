@@ -1,5 +1,6 @@
 package net.cryptic_game.microservice.chat.channel;
 
+import net.cryptic_game.microservice.chat.App;
 import net.cryptic_game.microservice.wrapper.User;
 
 import java.util.ArrayList;
@@ -40,6 +41,7 @@ public class Channel {
                 return false;
             }
         }
+        App.getChannelHandler().notifyAllChannelUsers(ChatAction.MEMBER_JOIN, this, user.getName());
         this.users.add(user);
         return true;
     }
@@ -48,6 +50,7 @@ public class Channel {
         for (final User u : this.users) {
             if (u.getUUID().equals(user.getUUID())) {
                 this.users.remove(user);
+                App.getChannelHandler().notifyAllChannelUsers(ChatAction.MEMBER_LEAVE, this, user.getName());
                 return true;
             }
         }

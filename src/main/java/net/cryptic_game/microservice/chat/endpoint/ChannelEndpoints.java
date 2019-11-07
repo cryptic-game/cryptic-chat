@@ -73,7 +73,6 @@ public class ChannelEndpoints {
         }
 
         if (channel.addUser(user)) {
-            channelHandler.notifyAllChannelUsers(ChatAction.MEMBER_JOIN, channel, user.getUUID());
             return SUCCESS.getJson();
         }
 
@@ -95,7 +94,6 @@ public class ChannelEndpoints {
         }
 
         if (channel.removeUser(user)) {
-            channelHandler.notifyAllChannelUsers(ChatAction.MEMBER_LEAVE, channel, user.getUUID());
             return SUCCESS.getJson();
         }
 

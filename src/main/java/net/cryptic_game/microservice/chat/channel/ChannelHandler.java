@@ -26,11 +26,11 @@ public class ChannelHandler {
         return channel;
     }
 
-    public void removeChannel(final UUID channelUuid, final UUID userUuid) {
+    public void removeChannel(final UUID channelUuid, final String userUuid) {
         this.removeChannel(channelUuid, userUuid, true);
     }
 
-    public void removeChannel(final UUID channelUuid, final UUID userUuid, final boolean notifyUsers) {
+    public void removeChannel(final UUID channelUuid, final String userUuid, final boolean notifyUsers) {
         final Channel channel = this.getChannelByUUID(channelUuid);
         if (notifyUsers) this.notifyAllChannelUsers(ChatAction.CHANNEL_DELETE, channel, userUuid);
         this.channels.remove(channel);
@@ -45,31 +45,31 @@ public class ChannelHandler {
         return this.channels;
     }
 
-    public void notifyUser(final User user, final ChatAction action, final Channel channel, final UUID target) {
+    public void notifyUser(final User user, final ChatAction action, final Channel channel, final String target) {
         this.notifyUsers(new ArrayList<>(Collections.singletonList(user)), action, channel, target);
     }
 
-    public void notifyUser(final User user, final ChatAction action, final Channel channel, final UUID target, final JSONObject content) {
+    public void notifyUser(final User user, final ChatAction action, final Channel channel, final String target, final JSONObject content) {
         this.notifyUsers(new ArrayList<>(Collections.singletonList(user)), action, channel, target, content);
     }
 
-    public void notifyUsers(final List<User> users, final ChatAction action, final Channel channel, final UUID target) {
+    public void notifyUsers(final List<User> users, final ChatAction action, final Channel channel, final String target) {
         this.notifyUsers(users, action, channel, target, null);
     }
 
-    public void notifyAllChannelUsers(final ChatAction action, final Channel channel, final UUID target) {
+    public void notifyAllChannelUsers(final ChatAction action, final Channel channel, final String target) {
         this.notifyUsers(channel.getUsers(), action, channel, target, null);
     }
 
-    public void notifyAllChannelUsers(final ChatAction action, final Channel channel, final UUID target, final JSONObject content) {
+    public void notifyAllChannelUsers(final ChatAction action, final Channel channel, final String target, final JSONObject content) {
         this.notifyUsers(channel.getUsers(), action, channel, target, content);
     }
 
-    public void notifyUsers(final List<User> users, ChatAction action, final Channel channel, final UUID target, final JSONObject content) {
+    public void notifyUsers(final List<User> users, ChatAction action, final Channel channel, final String target, final JSONObject content) {
         final JSONBuilder data = anJSON()
                 .add("action", action.getValue())
                 .add("channel", channel.getUuid().toString())
-                .add("user", target.toString());
+                .add("user", target);
 
         if (content != null) {
             data.add("content", content);
