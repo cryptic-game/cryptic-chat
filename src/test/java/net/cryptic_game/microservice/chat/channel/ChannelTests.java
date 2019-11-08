@@ -56,6 +56,7 @@ public class ChannelTests {
         final Channel channel = new Channel("test");
         final User testUser = new User(UUID.randomUUID(), "test", "test@test.test", new Date(), new Date());
         channel.addUser(testUser);
+        channel.addUser(new User(UUID.randomUUID(), "test123", "test@test.test", new Date(), new Date()));
 
         assertTrue(channel.getUsers().contains(testUser));
     }
@@ -81,6 +82,7 @@ public class ChannelTests {
         final Channel channel = new Channel("test");
         final User testUser = new User(UUID.randomUUID(), "test", "test@test.test", new Date(), new Date());
         channel.addUser(testUser);
+        channel.addUser(new User(UUID.randomUUID(), "test123", "test@test.test", new Date(), new Date()));
 
         if (!channel.getUsers().contains(testUser)) {
             fail();
@@ -96,6 +98,7 @@ public class ChannelTests {
         final Channel channel = new Channel("test");
         final User testUser = new User(UUID.randomUUID(), "test", "test@test.test", new Date(), new Date());
         channel.addUser(testUser);
+        channel.addUser(new User(UUID.randomUUID(), "test123", "test@test.test", new Date(), new Date()));
 
         if (!channel.getUsers().contains(testUser)) {
             fail();
@@ -107,6 +110,7 @@ public class ChannelTests {
     @Test
     public void testRemoveUserWithoutExist() {
         final Channel channel = new Channel("test");
+        channel.addUser(new User(UUID.randomUUID(), "test123", "test@test.test", new Date(), new Date()));
         final User testUser = new User(UUID.randomUUID(), "test", "test@test.test", new Date(), new Date());
 
         assertFalse(channel.removeUser(testUser));
@@ -124,6 +128,7 @@ public class ChannelTests {
     @Test
     public void testGetUserByNameWithoutExist() {
         final Channel channel = new Channel("test");
+        channel.addUser(new User(UUID.randomUUID(), "test123", "test@test.test", new Date(), new Date()));
         final User testUser = new User(UUID.randomUUID(), "test", "test@test.test", new Date(), new Date());
 
         assertNull(channel.getUserByName(testUser.getName()));
