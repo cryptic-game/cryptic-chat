@@ -1,4 +1,4 @@
-name: Test and Analysis
+name: Cryptic Chat MicroService
 
 on: [push, pull_request]
 
