@@ -72,7 +72,7 @@
         <dependency>
             <groupId>com.github.cryptic-game</groupId>
             <artifactId>java-lib</artifactId>
-            <version>issue~26-incoming-packets-SNAPSHOT</version>
+            <version>experimental-SNAPSHOT</version>
         </dependency>
 
         <dependency>
