@@ -4,7 +4,6 @@ import net.cryptic_game.microservice.MicroService;
 import net.cryptic_game.microservice.chat.App;
 import net.cryptic_game.microservice.chat.channel.Channel;
 import net.cryptic_game.microservice.chat.channel.ChannelHandler;
-import net.cryptic_game.microservice.chat.channel.ChatAction;
 import net.cryptic_game.microservice.endpoint.UserEndpoint;
 import net.cryptic_game.microservice.utils.JSON;
 import net.cryptic_game.microservice.wrapper.User;
