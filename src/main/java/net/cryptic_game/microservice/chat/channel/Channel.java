@@ -13,7 +13,7 @@ public class Channel {
     private final List<User> users;
     private String name;
 
-    Channel(final String name) {
+    public Channel(final String name) {
         this.uuid = UUID.randomUUID();
         this.name = name;
         this.users = new ArrayList<>();
